@@ -28,7 +28,8 @@ class ChildFirstClassLoader extends URLClassLoader {
 
     private static URL parse(String urlString) {
         try {
-            if (urlString.startsWith("/")) return Paths.get(urlString).toUri().toURL();
+            //If the urlString is a on disk path use Paths library to convert to URL
+            if (urlString.startsWith("/") || urlString.matches("[A-Za-z]:[\\\\]{1,2}.*")) return Paths.get(urlString).toUri().toURL();
             else return new URL(urlString);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
